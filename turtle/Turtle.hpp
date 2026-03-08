@@ -1,5 +1,7 @@
 #ifndef _TURTLE_H_
 #define _TURTLE_H_
+#include <string>
+
 
 class cTurtle
 {
@@ -18,29 +20,29 @@ public:
     cTurtle();
 
     // movement
-    void forward(int distance);
-    void backward(int distance);
-    void right(int angle);
-    void left(int angle);
-    void gotoXY(int x,int y);
-    void setx(int x);
-    void sety(int y);
-    void home();
+    void Forward(int distance);
+    void Backward(int distance);
+    void Right(int angle);
+    void Left(int angle);
+    void GotoXY(int x,int y);
+    void Setx(int x);
+    void Sety(int y);
+    void Home();
 
     // pen control
-    void penup();
-    void pendown();
-    bool isdown();
-    void pensize(int size);
+    void PenUp();
+    void PenDown();
+    bool IsDown();
+    void PenSize(int size);
 
     // color
-    void pencolor(const std::string color);
-    void bgcolor(const std::string color);
+    void PenColor(const std::string color);
+    void BgColor(const std::string color);
 
     // state
-    int xcordenate();
-    int ycordenate();
-    int heading();
+    int xCordenate();
+    int yCordenate();
+    int Heading();
 };
 
 #endif
