@@ -1,0 +1,6 @@
+size w=256 h=256
+color pen=blue bg=yellow
+pen down 0 0
+move forward 100
+move right 144
+pen up
