@@ -4,19 +4,18 @@
 #include <string>
 
 #include "ScriptParser.hpp"
+#include "../turtle/Turtle.hpp"
+#include "../image/Image.hpp"
 
 using namespace std;
 
-//[need to add some error handling]
-
-void LineParsing(const string line)
+void LineParsing(const string& line, cTurtle& turtle, cImage& image)
 {
-    //early Exit 
     if (line.empty() || line[0] == '#')
     {
         return;
     }
-        
+
     stringstream ss(line);
     string command;
     ss >> command;
@@ -30,28 +29,30 @@ void LineParsing(const string line)
 
         size_t pos = wToken.find('=');
         if (pos != string::npos)
-           { 
+        {
             width = stoi(wToken.substr(pos + 1));
-        } 
+        }
         else
         {
-            cout << "Invalid  command" << endl;
-
+            cout << "Invalid size command\n";
+            return;
         }
 
         pos = hToken.find('=');
         if (pos != string::npos)
         {
             height = stoi(hToken.substr(pos + 1));
-
-        } 
+        }
         else
         {
-            cout << "Invalid  command" << endl;
-
+            cout << "Invalid size command\n";
+            return;
         }
 
-        cout << "SIZE -> width = " << width<< ", height = " << height << endl;
+        image.Resize(width, height);
+
+        cout << "SIZE -> width = " << width
+             << ", height = " << height << endl;
     }
     else if (command == "color")
     {
@@ -64,23 +65,26 @@ void LineParsing(const string line)
         if (pos != string::npos)
         {
             penColor = penToken.substr(pos + 1);
-        } 
+        }
         else
         {
-            cout << "Invalid  command" << endl;
-
+            cout << "Invalid color command\n";
+            return;
         }
 
         pos = bgToken.find('=');
         if (pos != string::npos)
         {
             bgColor = bgToken.substr(pos + 1);
-        } 
+        }
         else
         {
-            cout << "Invalid  command" << endl;
-
+            cout << "Invalid color command\n";
+            return;
         }
+
+        turtle.PenColor(penColor);
+        turtle.BgColor(bgColor);
 
         cout << "COLOR -> pen = " << penColor
              << ", bg = " << bgColor << endl;
@@ -94,28 +98,55 @@ void LineParsing(const string line)
         {
             int x, y;
             ss >> x >> y;
+
+            turtle.PenDown();
+            turtle.GotoXY(x, y);
+
             cout << "PEN -> state = down, x = " << x
                  << ", y = " << y << endl;
         }
         else if (state == "up")
         {
+            turtle.PenUp();
             cout << "PEN -> state = up" << endl;
         }
         else
         {
-            cout << "Invalid  command" << endl;
+            cout << "Invalid pen command\n";
+            return;
         }
     }
     else if (command == "move")
     {
-        string direction,distance;
-        int Distance;
+        string direction;
+        int value;
 
-        ss >> direction >> distance;
-        Distance=stoi(distance);
+        ss >> direction >> value;
+
+        if (direction == "forward")
+        {
+            turtle.Forward(value);
+        }
+        else if (direction == "backward")
+        {
+            turtle.Backward(value);
+        }
+        else if (direction == "right")
+        {
+            turtle.Right(value);
+        }
+        else if (direction == "left")
+        {
+            turtle.Left(value);
+        }
+        else
+        {
+            cout << "Invalid move command\n";
+            return;
+        }
 
         cout << "MOVE -> direction = " << direction
-             << ", distance = " << distance << endl;
+             << ", value = " << value << endl;
     }
     else
     {
