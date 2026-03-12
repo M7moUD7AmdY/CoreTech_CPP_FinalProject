@@ -8,8 +8,20 @@ SRC = main.cpp \
 
 TARGET = turtle_draw
 
-all:
+SCRIPT = scripts/sample_script.txt
+OUTPUT = output/output.ppm
+
+all: build run view
+
+build:
 	$(CXX) $(SRC) -o $(TARGET)
 
+run:
+	./$(TARGET) $(SCRIPT) $(OUTPUT)
+
+view:
+	FoxViewPPM.exe $(OUTPUT)
+
 clean:
-	rm -f $(TARGET)
+	del $(TARGET).exe
+	del $(OUTPUT)
