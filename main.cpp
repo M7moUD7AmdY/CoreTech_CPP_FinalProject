@@ -201,27 +201,81 @@
 //     return 0;
 // }
 
+// #include <iostream>
+// #include "image/Image.hpp"
+
+// int main()
+// {
+//     int width = 512;
+//     int height = 512;
+
+//     cImage image(width, height);
+
+//     image.Fill("white");
+
+//     if (image.SavePPM("white.ppm"))
+//     {
+//         std::cout << "Image generated successfully\n";
+//     }
+//     else
+//     {
+//         std::cout << "Failed to save image\n";
+//         return 1;
+//     }
+
+//     return 0;
+// }
+
+
+
 #include <iostream>
+#include <fstream>
+#include <string>
+
 #include "image/Image.hpp"
+#include "turtle/Turtle.hpp"
+#include "parser/ScriptParser.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
-    int width = 512;
-    int height = 512;
-
-    cImage image(width, height);
-
-    image.Fill("white");
-
-    if (image.SavePPM("white.ppm"))
+    if(argc != 3)
     {
-        std::cout << "Image generated successfully\n";
-    }
-    else
-    {
-        std::cout << "Failed to save image\n";
+        std::cout<<"Usage: program script.txt output.ppm\n";
         return 1;
     }
+
+    std::string scriptFile = argv[1];
+    std::string outputFile = argv[2];
+
+    std::ifstream input(scriptFile);
+
+    if(!input)
+    {
+        std::cout<<"Failed to open input file\n";
+        return 1;
+    }
+
+    cImage image;
+    cTurtle turtle;
+
+    turtle.SetImage(&image);
+
+    std::string line;
+    std::string error;
+
+    while(std::getline(input,line))
+    {
+        LineParsing(line,turtle,image);
+     
+    }
+
+    if(!image.SavePPM(outputFile))
+    {
+        std::cout<<"Failed to save image\n";
+        return 1;
+    }
+
+    std::cout<<"Image generated successfully\n";
 
     return 0;
 }

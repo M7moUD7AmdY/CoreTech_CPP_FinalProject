@@ -1,27 +1,30 @@
 CXX = g++
-CXXFLAGS = -std=c++17
+CXXFLAGS = -std=c++17 -Wall -Wextra
 
 SRC = main.cpp \
       image/Image.cpp \
       turtle/Turtle.cpp \
       parser/ScriptParser.cpp
 
-TARGET = turtle_draw
+
+TARGET = turtle_draw.exe
 
 SCRIPT = scripts/sample_script.txt
 OUTPUT = output/output.ppm
 
+FOX = FoxViewPPM.exe
+
 all: build run view
 
 build:
-	$(CXX) $(SRC) -o $(TARGET)
+	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET)
 
-run:
-	./$(TARGET) $(SCRIPT) $(OUTPUT)
+run: build
+	.\$(TARGET) $(SCRIPT) $(OUTPUT)
 
-view:
-	FoxViewPPM.exe $(OUTPUT)
+view: run
+	$(FOX) $(OUTPUT)
 
 clean:
-	del $(TARGET).exe
-	del $(OUTPUT)
+	del /Q $(TARGET)
+	del /Q $(OUTPUT)

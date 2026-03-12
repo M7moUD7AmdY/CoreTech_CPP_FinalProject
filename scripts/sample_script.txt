@@ -1,13 +1,10 @@
-size w=256 h=256
+size w=512 h=512
 color pen=red bg=white
-pen down 128 30
-move forward 180
-move right 144
-move forward 180
-move right 144
-move forward 180
-move right 144
-move forward 180
-move right 144
-move forward 180
-pen up
+pen down 256 256
+move forward 100
+move right 90
+move forward 100
+move right 90
+move forward 100
+move right 90
+move forward 100
