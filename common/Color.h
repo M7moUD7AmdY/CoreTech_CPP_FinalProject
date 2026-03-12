@@ -4,9 +4,15 @@
 #include <string>
 #include <map>
 #include <cstdint>
-#include "../image/Image.hpp"
 
-const std::map<std::string,sPixel> ColorTable =
+struct sPixel
+{
+    uint8_t R;
+    uint8_t G;
+    uint8_t B;
+};
+
+const std::map<std::string, sPixel> ColorTable =
 {
     {"black",   {0,   0,   0}},
     {"white",   {255, 255, 255}},

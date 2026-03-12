@@ -21,7 +21,7 @@ void cImage :: Resize(int width,int height)
 
 }
 
-void cImage :: SetPixel(int x,int y,const sPixel& color)
+void cImage :: SetPixel(int x,int y,const std::string& color)
 {
     if(x < 0 || x >= m_width || y < 0 || y >= m_height)
     {
@@ -29,7 +29,7 @@ void cImage :: SetPixel(int x,int y,const sPixel& color)
     }
 
     int pixel_index=y * m_width + x; //to get pixel index for the vector
-    m_pixels[pixel_index]=color;
+    m_pixels[pixel_index]=ColorTable.at(color);
 
 }
 
@@ -41,7 +41,7 @@ bool cImage :: SavePPM(const std::string& file)
         printf("Faild to open file\n");
         return false;
     }
-    output_image << "P6\n";
+    output_image << "P3\n";
     output_image << m_width << " " << m_height << "\n";
     output_image << "255\n";
 
@@ -73,4 +73,21 @@ int cImage :: GetImageSize(void)
     }
 
     return m_width*m_height;
+}
+
+void cImage::Fill(const std::string& color)
+{
+    if (!IsValidColor(color))
+    {
+        return;
+    }
+
+    const sPixel pixel = ColorTable.at(color);
+    std::fill(m_pixels.begin(), m_pixels.end(), pixel);
+}
+
+
+bool cImage::IsValidColor(const std::string& color)
+{
+    return ColorTable.find(color) != ColorTable.end();
 }

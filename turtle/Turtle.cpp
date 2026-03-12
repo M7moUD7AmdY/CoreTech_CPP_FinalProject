@@ -1,5 +1,10 @@
-#include <cmath>
 #include "Turtle.hpp"
+#include <cstdlib>
+
+namespace
+{
+    constexpr double PI = 3.14159265358979323846;
+}
 
 cTurtle::cTurtle()
     : m_x(0),
@@ -7,18 +12,93 @@ cTurtle::cTurtle()
       m_angle(0),
       m_penDown(false),
       m_penSize(1),
-      m_penColor("black"),
+      m_image(nullptr),
+      m_penColor("red"),
       m_bgColor("white")
 {
 }
 
+void cTurtle::SetImage(cImage* image)
+{
+    m_image = image;
+    if (m_image != nullptr)
+    {
+        m_image->Fill(m_bgColor);
+    }
+}
+
+void cTurtle::DrawPoint(int x, int y)
+{
+    if (m_image == nullptr)
+    {
+        return;
+    }
+
+    const int half = m_penSize / 2;
+
+    for (int dy = -half; dy <= half; ++dy)
+    {
+        for (int dx = -half; dx <= half; ++dx)
+        {
+            m_image->SetPixel(x + dx, y + dy, m_penColor);
+        }
+    }
+}
+
+void cTurtle::DrawLine(int x0, int y0, int x1, int y1)
+{
+    if (m_image == nullptr)
+    {
+        return;
+    }
+
+    int dx = std::abs(x1 - x0);
+    int dy = std::abs(y1 - y0);
+    int sx = (x0 < x1) ? 1 : -1;
+    int sy = (y0 < y1) ? 1 : -1;
+    int err = dx - dy;
+
+    while (true)
+    {
+        DrawPoint(x0, y0);
+
+        if (x0 == x1 && y0 == y1)
+        {
+            break;
+        }
+
+        const int e2 = 2 * err;
+
+        if (e2 > -dy)
+        {
+            err -= dy;
+            x0 += sx;
+        }
+
+        if (e2 < dx)
+        {
+            err += dx;
+            y0 += sy;
+        }
+    }
+}
+
 void cTurtle::Forward(int distance)
 {
-    const double PI = 3.14159265358979323846;
-    double rad = m_angle * PI / 180.0;
+    const int x0 = m_x;
+    const int y0 = m_y;
 
-    m_x = static_cast<int>(std::round(m_x + distance * std::cos(rad)));
-    m_y = static_cast<int>(std::round(m_y + distance * std::sin(rad)));
+    const double rad = m_angle * PI / 180.0;
+    const int x1 = static_cast<int>(std::lround(m_x + distance * std::cos(rad)));
+    const int y1 = static_cast<int>(std::lround(m_y + distance * std::sin(rad)));
+
+    if (m_penDown && m_image != nullptr)
+    {
+        DrawLine(x0, y0, x1, y1);
+    }
+
+    m_x = x1;
+    m_y = y1;
 }
 
 void cTurtle::Backward(int distance)
@@ -28,9 +108,7 @@ void cTurtle::Backward(int distance)
 
 void cTurtle::Right(int angle)
 {
-    m_angle += angle;
-    m_angle %= 360;
-
+    m_angle = (m_angle + angle) % 360;
     if (m_angle < 0)
     {
         m_angle += 360;
@@ -39,9 +117,7 @@ void cTurtle::Right(int angle)
 
 void cTurtle::Left(int angle)
 {
-    m_angle -= angle;
-    m_angle %= 360;
-
+    m_angle = (m_angle - angle) % 360;
     if (m_angle < 0)
     {
         m_angle += 360;
@@ -96,12 +172,23 @@ void cTurtle::PenSize(int size)
 
 void cTurtle::PenColor(const std::string& color)
 {
-    m_penColor = color;
+    if (m_image->IsValidColor(color))
+    {
+        m_penColor = color;
+    }
 }
 
 void cTurtle::BgColor(const std::string& color)
 {
-    m_bgColor = color;
+    if (m_image->IsValidColor(color))
+    {
+        m_bgColor = color;
+
+        if (m_image != nullptr)
+        {
+            m_image->Fill(m_bgColor);
+        }
+    }
 }
 
 int cTurtle::xCordenate() const
@@ -117,14 +204,4 @@ int cTurtle::yCordenate() const
 int cTurtle::Heading() const
 {
     return m_angle;
-}
-
-std::string cTurtle::GetPenColor() const
-{
-    return m_penColor;
-}
-
-std::string cTurtle::GetBgColor() const
-{
-    return m_bgColor;
 }

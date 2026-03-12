@@ -2,36 +2,20 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug C++ (TDM-GDB)",
+      "name": "Debug Turtle Project",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-      "cwd": "${fileDirname}",
-      "args": [],
+      "program": "${workspaceFolder}\\turtle_draw.exe",
+      "args": [
+        "${workspaceFolder}\\scripts\\sample_script.txt",
+        "${workspaceFolder}\\output\\output.ppm"
+      ],
+      "cwd": "${workspaceFolder}",
       "stopAtEntry": true,
-      "externalConsole": true,
+      "externalConsole": false,
       "MIMode": "gdb",
       "miDebuggerPath": "C:\\TDM-GCC-64\\bin\\gdb.exe",
-      "preLaunchTask": "build active file (g++)",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
-    },
-    {
-      "name": "C/C++ Runner: Debug Session (TDM-GDB)",
-      "type": "cppdbg",
-      "request": "launch",
-      "args": [],
-      "stopAtEntry": false,
-      "externalConsole": true,
-      "cwd": "f:/My Learn/IMT_Scholership",
-      "program": "f:/My Learn/IMT_Scholership/build/Debug/outDebug.exe",
-      "MIMode": "gdb",
-      "miDebuggerPath": "C:\\TDM-GCC-64\\bin\\gdb.exe",
+      "preLaunchTask": "build turtle project",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",

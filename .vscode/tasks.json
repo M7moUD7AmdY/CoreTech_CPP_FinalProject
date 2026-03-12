@@ -2,15 +2,22 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build active file (g++)",
+      "label": "build turtle project",
       "type": "shell",
-      "command": "C:\\TDM-GCC-64\\bin\\g++.exe",
+      "command": "g++",
       "args": [
         "-g",
-        "${file}",
+        "-std=c++17",
+        "main.cpp",
+        "image/Image.cpp",
+        "turtle/Turtle.cpp",
+        "parser/ScriptParser.cpp",
         "-o",
-        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+        "turtle_draw.exe"
       ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "group": {
         "kind": "build",
         "isDefault": true
@@ -18,6 +25,42 @@
       "problemMatcher": [
         "$gcc"
       ]
+    },
+    {
+      "label": "run turtle project",
+      "type": "shell",
+      "command": "${workspaceFolder}\\turtle_draw.exe",
+      "args": [
+        "${workspaceFolder}\\scripts\\sample_script.txt",
+        "${workspaceFolder}\\output\\output.ppm"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "build turtle project",
+      "problemMatcher": []
+    },
+    {
+      "label": "view output image",
+      "type": "shell",
+      "command": "FoxViewPPM.exe",
+      "args": [
+        "${workspaceFolder}\\output\\output.ppm"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build run and view",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "build turtle project",
+        "run turtle project",
+        "view output image"
+      ],
+      "problemMatcher": []
     }
   ]
 }

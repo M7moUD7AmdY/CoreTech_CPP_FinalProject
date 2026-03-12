@@ -2,20 +2,29 @@
 #define _TURTLE_H_
 
 #include <string>
+#include <cmath>
+#include "../image/Image.hpp"
 
 class cTurtle
 {
 private:
     int m_x;
     int m_y;
-    int m_angle;
+    int m_angle;          
     bool m_penDown;
     int m_penSize;
+    cImage* m_image;
+
     std::string m_penColor;
     std::string m_bgColor;
 
+    void DrawPoint(int x, int y);
+    void DrawLine(int x0, int y0, int x1, int y1);
+
 public:
     cTurtle();
+
+    void SetImage(cImage* image);
 
     // movement
     void Forward(int distance);
@@ -41,8 +50,6 @@ public:
     int xCordenate() const;
     int yCordenate() const;
     int Heading() const;
-    std::string GetPenColor() const;
-    std::string GetBgColor() const;
 };
 
 #endif
