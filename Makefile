@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra
+CXXFLAGS = -std=c++17 
 
 SRC = main.cpp \
       image/Image.cpp \
@@ -16,7 +16,7 @@ FOX = FoxViewPPM.exe
 
 all: build run view
 
-build:
+Build:
 	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET)
 
 run: build
