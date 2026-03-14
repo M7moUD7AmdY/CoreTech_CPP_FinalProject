@@ -1,20 +1,27 @@
+# Turtle Drawing Engine (C++)
 
-Turtle Drawing Engine (C++)
+A C++ project that reads drawing commands from a script file and generates an image using a **turtle graphics system**.  
+The generated image is saved in **PPM format** and can be viewed using **FoxViewPPM**.
 
-A C++ project that reads drawing commands from a script file and generates an image using a turtle graphics system.
-The generated image is saved in PPM format and can be viewed using FoxViewPPM.
+This project demonstrates:
+- File parsing
+- Basic turtle graphics
+- Image generation
+- Object-oriented design in C++
+- Build automation using a Makefile
 
-Project Overview
-----------------
+## Project Overview
+
 The program simulates a turtle drawing engine similar to the Logo programming language.
 
-A text script contains drawing commands.
+A text script contains drawing commands.  
 The program reads these commands, moves a virtual turtle across a canvas, and draws lines accordingly.
 
-The final drawing is saved as a PPM image.
+The final drawing is saved as a **PPM image**.
 
-Workflow
---------
+## Workflow
+
+```text
 Script File
     ↓
 Script Parser
@@ -25,18 +32,21 @@ Image Buffer
     ↓
 PPM Image File
     ↓
-Image Viewer (FoxViewPPM)
+FoxViewPPM Viewer
+```
 
-Steps:
+### Execution Flow
+
 1. The program reads commands from a script file.
-2. ScriptParser interprets each command.
+2. `ScriptParser` interprets each command.
 3. Commands control turtle movement and drawing.
-4. The turtle updates pixels inside the Image class.
-5. The image is exported as a .ppm file.
-6. The Makefile opens the image automatically using FoxViewPPM.
+4. The turtle updates pixels inside the `Image` class.
+5. The image is exported as a `.ppm` file.
+6. The Makefile can compile, run, and open the generated image automatically.
 
-Project Structure
------------------
+## Project Structure
+
+```text
 CoreTech_CPP_FinalProject
 │
 ├── main.cpp
@@ -61,9 +71,55 @@ CoreTech_CPP_FinalProject
 ├── Makefile
 │
 └── FoxViewPPM.exe
+```
 
-Example Script
---------------
+## Supported Commands
+
+### Canvas Size
+
+```text
+size w=<width> h=<height>
+```
+
+Example:
+
+```text
+size w=512 h=512
+```
+
+### Colors
+
+```text
+color pen=<color> bg=<color>
+```
+
+Example:
+
+```text
+color pen=red bg=white
+```
+
+### Pen Control
+
+```text
+pen down x y
+pen up
+```
+
+### Movement
+
+```text
+move forward <distance>
+move backward <distance>
+move right <angle>
+move left <angle>
+```
+
+## Example Script
+
+File: `scripts/sample_script.txt`
+
+```text
 size w=512 h=512
 color pen=red bg=white
 pen down 256 256
@@ -74,83 +130,96 @@ move right 90
 move forward 100
 move right 90
 move forward 100
+```
 
 This script generates a red square.
 
-Supported Commands
-------------------
+## Tools Needed
 
-Canvas Size
-size w=<width> h=<height>
+To build and run this project you need:
 
-Example:
-size w=512 h=512
+- **g++** with C++17 support
+- **make**
+- **FoxViewPPM** to open `.ppm` images
 
-Colors
-color pen=<color> bg=<color>
+## Installation
 
-Example:
-color pen=blue bg=white
+### 1. Install g++
 
-Pen Control
-pen down x y
-pen up
+You can install MinGW-w64 or TDM-GCC on Windows.
 
-Movement
-move forward <distance>
-move backward <distance>
-move right <angle>
-move left <angle>
+After installation, add the compiler path to your system `PATH`.
 
-Requirements
-------------
-To run this project you need:
+Example path:
 
-- C++17 compatible compiler (g++)
-- Make
-- FoxViewPPM image viewer
+```text
+C:\TDM-GCC-64\bin
+```
 
-Installing Tools
-----------------
+Check installation:
 
-Install GCC:
-https://www.mingw-w64.org/downloads/
-
-Verify installation:
+```bash
 g++ --version
+```
 
-Install Make:
-Use MSYS2 or GNU Make for Windows
+### 2. Install make
 
-Verify:
+If `make` is not available on your system, install one of these:
+- GNU Make for Windows
+- MSYS2
+- MinGW/MSYS packages
+
+Check installation:
+
+```bash
 make --version
+```
 
-Build and Run
--------------
-From the project directory run:
+### 3. Install FoxViewPPM
 
+Place `FoxViewPPM.exe` in the project root folder, or make sure its path is available when running the Makefile.
+
+## Build and Run
+
+From the project root directory, run:
+
+```bash
 make
+```
 
-The Makefile will:
+This will:
 1. Compile the project
-2. Run the program
-3. Generate the PPM image
+2. Execute the script file
+3. Generate the output image
 4. Open the image using FoxViewPPM
 
-Output
-------
-Generated image:
-output/output.ppm
+## Output File
 
-Cleaning Build Files
---------------------
+The generated image is saved as:
+
+```text
+output/output.ppm
+```
+
+## Clean Generated Files
+
+To remove build and output files:
+
+```bash
 make clean
+```
 
 This removes:
-turtle_draw.exe
-output/output.ppm
+- `turtle_draw.exe`
+- `output/output.ppm`
 
-Author
-------
-Mahmoud Hamdi
+## Notes
+
+- If the image viewer does not open, make sure `FoxViewPPM.exe` exists in the project root.
+- If `make` is not recognized, install GNU Make and verify it is added to `PATH`.
+- If the script file cannot be opened, check that `scripts/sample_script.txt` exists.
+
+## Author
+
+**Mahmoud Hamdi**  
 C++ CoreTech Final Project
